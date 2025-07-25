@@ -48,6 +48,7 @@ namespace PersonWebAPI.Controllers
 
         #endregion Read
 
+
         #region Create
 
         [HttpPost]
@@ -73,6 +74,7 @@ namespace PersonWebAPI.Controllers
 
         #endregion Create
 
+
         #region Update
 
         [HttpPut("{id}")]
@@ -95,7 +97,9 @@ namespace PersonWebAPI.Controllers
         #endregion Update
 
 
-        // DELETE: api/Person/5
+        #region Delete
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(int id)
         {
@@ -111,15 +115,7 @@ namespace PersonWebAPI.Controllers
         }
 
 
-
-        //    var result = await personService.DeletePersonAsync(id);
-
-        //if (result)
-        //    return Ok("شخص با موفقیت حذف شد.");
-        //else
-        //    return NotFound("شخص مورد نظر یافت نشد.");
-
-
+        #endregion Delete
 
 
     }
