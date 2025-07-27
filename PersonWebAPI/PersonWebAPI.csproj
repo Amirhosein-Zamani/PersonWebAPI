@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PersonWebAPI.Application\PersonWebAPI.Application.csproj" />
     <ProjectReference Include="..\PersonWebAPI.Infra.Ioc\PersonWebAPI.Infra.Ioc.csproj" />
   </ItemGroup>
 
