@@ -23,12 +23,12 @@ namespace PersonWebAPI.Controllers
         public async Task<IActionResult> GetPeopleAsync()
         {
 
-            var people = await personService.GetAllPersonAsync();
+            var result = await personService.GetAllPersonAsync();
 
-            if (people == null || !people.Any())
-                return NotFound("هیچ شخصی پیدا نشد.");
+            if (!result.IsSucces)
+                return NotFound(result.Error);
 
-            return Ok(people);
+            return Ok(result);
 
         }
 
@@ -36,14 +36,14 @@ namespace PersonWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(int id)
         {
-            var person = await personService.GetPersonByIdAsync(id);
+            var result = await personService.GetPersonByIdAsync(id);
 
-            if (person == null)
+            if (!result.IsSucces)
             {
-                return NotFound();
+                return NotFound(result.Error);
             }
 
-            return Ok(person);
+            return Ok(result);
         }
 
         #endregion Read
@@ -54,21 +54,16 @@ namespace PersonWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPersonAsync([FromBody] CreatePersonDto personDto)
         {
-            //TODO:: DTO ---> Service ---> Repository
+            var result = await personService.AddPersonAsync(personDto);
 
-            if (!ModelState.IsValid)
+            if (!result.IsSucces)
             {
 
-                return BadRequest(new
-                {
-                    Message = "مقادیر ورودی نامعتبر است!"
-                });
+                return BadRequest(result.Error);
 
             }
 
-            await personService.AddPersonAsync(personDto);
-
-            return Ok();
+            return Ok("کاربر با موفقیت اضافه شد");
 
         }
 
@@ -83,15 +78,12 @@ namespace PersonWebAPI.Controllers
 
             var result = await personService.EditPersonAsync(id, dto);
 
-            if (result)
+            if (!result.IsSucces)
             {
-                return Ok("شخص با موفقیت ویرایش شد.");
-            }
-            else
-            {
-                return NotFound("شخص مورد نظر یافت نشد.");
+                return NotFound(result.Error);
             }
 
+            return Ok("شخص با موفقیت ویرایش شد.");
         }
 
         #endregion Update
@@ -103,15 +95,17 @@ namespace PersonWebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(int id)
         {
-            var result = await personService.GetPersonByIdAsync(id);
+            var result = await personService.DeletePersonAsync(id);
 
-            if (result != null)
+            if (!result.IsSucces)
             {
-                await personService.DeletePersonAsync(id);
-                return Ok("شخص با موفقیت حذف شد.");
+
+                return NotFound(result.Error);
+
             }
 
-            return NotFound("شخص مورد نظر یافت نشد.");
+            return Ok("کاربر با موفقیت حذف شد.");
+
         }
 
 

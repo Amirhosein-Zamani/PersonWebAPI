@@ -1,6 +1,8 @@
 ﻿using PersonWebAPI.Application.DTO;
 using PersonWebAPI.Application.Services.Intrfaces;
+using PersonWebAPI.Domain.Common;
 using PersonWebAPI.Domain.Interfaces;
+using PersonWebAPI.Domain.Common;
 using PersonWebAPI.Infra.Data.Repository;
 using System;
 using System.Collections.Generic;
@@ -12,20 +14,17 @@ namespace PersonWebAPI.Application.Services.Implementation
 {
     public class PersonService(IPersonReposirory personReposirory) : IPersonService
     {
-        public async Task AddPersonAsync(CreatePersonDto personDto)
+        public async Task<Result<Person>> AddPersonAsync(CreatePersonDto personDto)
         {
 
-            if (await personReposirory.GetPersonByMobileAsync(personDto.Mobile) != null)
+            var existingPerson = await personReposirory.GetPersonByMobileAsync(personDto.Mobile);
+
+            if (existingPerson != null)
             {
-                throw new Exception("کاربری با این شماره موبایل قبلاً ثبت شده است!");
+                return Result<Person>.Failure("کاربری با این شماره موبایل قبلاً ثبت شده است!");
             }
 
-            //if (await personReposirory.GetPersonByName(personDto.Name) != null)
-            //{
-            //    throw new Exception("کاربری با این نام قبلاً ثبت شده است!");
-            //}
-
-            Person person = new Person
+            var person = new Person
             {
                 Name = personDto.Name,
                 Mobile = personDto.Mobile,
@@ -36,79 +35,71 @@ namespace PersonWebAPI.Application.Services.Implementation
             };
 
             await personReposirory.AddPersonAsync(person);
+
+            return Result<Person>.Success(person);
+
         }
 
-        public async Task<bool> DeletePersonAsync(int id)
+        public async Task<Result<Person>> DeletePersonAsync(int id)
         {
+
             var person = await personReposirory.GetPersonByIdAsync(id);
 
             if (person != null)
             {
                 await personReposirory.DeletePersonAsync(person);
-                return true;
+
+                return Result<Person>.Success(person);
             }
 
-            return false;
-
-           
+            return Result<Person>.Failure("کاربری با این آیدی وجود ندارد!");
         }
-           
 
-        public async Task<bool> EditPersonAsync(int id, EditPersonDto editpersonDto)
+        public async Task<Result<Person>> EditPersonAsync(int id, EditPersonDto editpersonDto)
         {
             var person = await personReposirory.GetPersonByIdAsync(id);
 
-            if (person == null)
+            if (person != null)
             {
+                person.Name = editpersonDto.Name;
+                person.Mobile = editpersonDto.Mobile;
+                person.Age = editpersonDto.Age;
+                person.Address = editpersonDto.Address;
+                person.City = editpersonDto.City;
+                person.Email = editpersonDto.Email;
 
-                return false;
+                await personReposirory.UpdatePersonAsync(person);
+
+                return Result<Person>.Success(person);
             }
 
-            person.Name = editpersonDto.Name;
-            person.Mobile = editpersonDto.Mobile;
-            person.Age = editpersonDto.Age;
-            person.Address = editpersonDto.Address;
-            person.City = editpersonDto.City;
-            person.Email = editpersonDto.Email;
-
-            await personReposirory.UpdatePersonAsync(person);
-
-            return true;
+            return Result<Person>.Failure("کاربری با این آیدی وجود ندارد!");
 
         }
 
-        //public Task EditPersonAsync(int id, EditPersonDto editpersonDto)
-        //{
-        //    var Person = personReposirory.GetPersonByIdAsync(id);
-
-        //    if (Person != null)
-        //    {
-        //     Person person = new Person
-        //     {
-        //         Id = id,
-        //         Name = editpersonDto.Name,
-        //         Mobile = editpersonDto.Mobile,
-        //         Age = editpersonDto.Age,
-        //         Address = editpersonDto.Address,
-        //         City = editpersonDto.City,
-        //         Email = editpersonDto.Email
-        //     };
-        //        return personReposirory.AddPersonAsync(person);
-        //    }
-
-        //    throw new Exception("شخص مورد نظر یافت نشد.");
-        //}
-
-        public async Task<List<Person>> GetAllPersonAsync()
+        public async Task<Result<List<Person>>> GetAllPersonAsync()
         {
-            return await personReposirory.GetAllPerson();
+            var People = await personReposirory.GetAllPerson();
+
+            if (People != null && People.Any())
+            {
+                return Result<List<Person>>.Success(People);
+            }
+
+            return Result<List<Person>>.Failure("هیچ کاربری یافت نشد!");
         }
 
-        public async Task<Person> GetPersonByIdAsync(int id)
+        public async Task<Result<Person>> GetPersonByIdAsync(int id)
         {
-            var person = personReposirory.GetPersonByIdAsync(id);
+            var person = await personReposirory.GetPersonByIdAsync(id);
 
-            return await person;
+            if (person != null)
+            {
+                return Result<Person>.Success(person);
+            }
+
+            return Result<Person>.Failure("کاربری با این آیدی وجود ندارد!");
+
         }
     }
 }
