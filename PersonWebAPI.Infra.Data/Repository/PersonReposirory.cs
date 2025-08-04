@@ -12,6 +12,7 @@ namespace PersonWebAPI.Infra.Data.Repository
     public class PersonReposirory(PersonWebAPIContext context) : IPersonReposirory
     {
 
+
         public async Task AddPersonAsync(Person person)
         {
             context.Persons.Add(person);
@@ -20,21 +21,29 @@ namespace PersonWebAPI.Infra.Data.Repository
 
         public async Task DeletePersonAsync(Person person)
         {
-             context.Persons.Remove(person);
+            context.Persons.Remove(person);
             await context.SaveChangesAsync();
         }
 
         public async Task<List<Person>> GetAllPerson()
         {
-            return await context.Persons.ToListAsync();
+            return await context.Persons
+                    .Include(p => p.PersonGroups)
+                     .ThenInclude(pg => pg.Group)
+                    .ToListAsync();
+
         }
 
         public async Task<Person?> GetPersonByIdAsync(int id)
         {
-            return await context.Persons.FirstOrDefaultAsync(p => p.ID == id);
+          return await context.Persons
+                .Include (p => p.PersonGroups)
+                .ThenInclude (pg => pg.Group)
+                .FirstOrDefaultAsync(p=>p.PersonID == id);
+
         }
 
-        public Task<Person?> GetPersonByMobileAsync(string mobile)
+        public Task<Person?> GetPersonByMobile(string mobile)
         {
             return context.Persons
                 .FirstOrDefaultAsync(p => p.Mobile == mobile);

@@ -17,6 +17,8 @@ namespace PersonWebAPI.Infra.Data.Context
         #region Db_Set
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Group> Groups{ get; set; }
+        public DbSet<PersonGroup> PersonGroups{ get; set; }
 
         #endregion Db_Set
 

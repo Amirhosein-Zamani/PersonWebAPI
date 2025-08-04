@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonWebAPI.Infra.Data.Context;
 
@@ -10,9 +11,11 @@ using PersonWebAPI.Infra.Data.Context;
 namespace PersonWebAPI.Infra.Data.Migrations
 {
     [DbContext(typeof(PersonWebAPIContext))]
-    partial class PersonWebAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250728091808_AddGroupAndPersonGroupTableWithFluentAPI")]
+    partial class AddGroupAndPersonGroupTableWithFluentAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,33 +26,33 @@ namespace PersonWebAPI.Infra.Data.Migrations
 
             modelBuilder.Entity("Group", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GroupId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("GroupName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("GroupId");
+                    b.HasKey("Id");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Person", b =>
                 {
-                    b.Property<int>("PersonID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(250)
@@ -77,7 +80,7 @@ namespace PersonWebAPI.Infra.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("PersonID");
+                    b.HasKey("ID");
 
                     b.ToTable("Persons");
                 });

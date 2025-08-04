@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PersonWebAPI.Application.DTO.Person
+{
+    public class PersonReadDto
+    {
+        [Required]
+        [MaxLength(100,ErrorMessage ="نام کاربر نباید بیشتر از 100 کاراکتر باشد")]
+
+        public required string Name { get; set; }
+
+
+        [Required(ErrorMessage = "شماره موبایل الزامی است.")]
+        [MaxLength(11, ErrorMessage = "شماره موبایل نباید بیشتر از 11 رقم باشد.")]
+        [MinLength(11, ErrorMessage = "شماره موبایل باید دقیقاً 11 رقم باشد.")]
+        public required string Mobile { get; set; }
+
+        public int? Age { get; set; }
+
+        public string? Address { get; set; }
+
+        public string? City { get; set; }
+
+        public string? Email { get; set; }
+
+        public List<GroupDto>? Groups{ get; set; }
+    }
+}

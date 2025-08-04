@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using PersonWebAPI.Application.DependencyInjection;
+using PersonWebAPI.Application.Mapping;
 using PersonWebAPI.Infra.Data.Context;
 using PersonWebAPI.Infra.Data.DependencyInjection;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+MapsterConfig.Configure();
 
 string connectionString = builder.Configuration.GetConnectionString("PersonWebAPIConnectionString");
 

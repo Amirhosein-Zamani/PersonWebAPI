@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
-using PersonWebAPI.Application.DTO;
+using PersonWebAPI.Application.DTO.Person;
 using PersonWebAPI.Application.Services.Intrfaces;
 using PersonWebAPI.Infra.Data.Context;
 
@@ -22,7 +22,6 @@ namespace PersonWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPeopleAsync()
         {
-
             var result = await personService.GetAllPersonAsync();
 
             if (!result.IsSucces)
@@ -52,15 +51,13 @@ namespace PersonWebAPI.Controllers
         #region Create
 
         [HttpPost]
-        public async Task<IActionResult> AddPersonAsync([FromBody] CreatePersonDto personDto)
+        public async Task<IActionResult> AddPersonAsync([FromBody] PersonCreateDto personCreateDto)
         {
-            var result = await personService.AddPersonAsync(personDto);
+            var result = await personService.AddPersonAsync(personCreateDto);
 
             if (!result.IsSucces)
             {
-
                 return BadRequest(result.Error);
-
             }
 
             return Ok("کاربر با موفقیت اضافه شد");
@@ -73,14 +70,13 @@ namespace PersonWebAPI.Controllers
         #region Update
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditPerson(int id, [FromBody] EditPersonDto dto)
+        public async Task<IActionResult> EditPerson(int id, [FromBody] PersonEditDto personEditDto)
         {
-
-            var result = await personService.EditPersonAsync(id, dto);
+            var result = await personService.EditPersonAsync(id, personEditDto);
 
             if (!result.IsSucces)
             {
-                return NotFound(result.Error);
+                return BadRequest(result.Error);
             }
 
             return Ok("شخص با موفقیت ویرایش شد.");

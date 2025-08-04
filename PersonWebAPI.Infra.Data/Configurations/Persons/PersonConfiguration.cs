@@ -8,7 +8,9 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
         public void Configure(EntityTypeBuilder<Person> builder)
         {
 
-            builder.HasKey(p => p.ID);
+            #region properties
+
+            builder.HasKey(p => p.PersonID);
 
             builder.Property(p => p.Name)
                 .IsRequired()
@@ -16,7 +18,7 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
 
             builder.Property(p => p.Mobile)
                 .IsRequired()
-                .IsUnicode() 
+                .IsUnicode()
                 .HasMaxLength(11);
 
             builder.Property(p => p.City)
@@ -31,6 +33,18 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
             builder.Property(p => p.Age)
                 .HasColumnType("integer");
 
+            #endregion properties
+
+
+            #region relations
+
+            builder.HasMany(p => p.PersonGroups)
+              .WithOne(pg => pg.Person);
+
+            #endregion relations
+
         }
+
     }
 }
+

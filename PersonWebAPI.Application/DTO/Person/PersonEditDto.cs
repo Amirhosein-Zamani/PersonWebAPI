@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonWebAPI.Application.DTO
+namespace PersonWebAPI.Application.DTO.Person
 {
-    public class EditPersonDto
+    public class PersonEditDto
     {
-        public string? Name { get; set; }
+        [Required]
+        [MaxLength(100, ErrorMessage = "نام کاربر نباید بیشتر از 100 کاراکتر باشد")]
+
+        public required string Name { get; set; }
 
 
         [Required(ErrorMessage = "شماره موبایل الزامی است.")]
@@ -19,11 +22,13 @@ namespace PersonWebAPI.Application.DTO
 
         public int? Age { get; set; }
 
-        [Required(ErrorMessage = "آدرس الزامی است.")]
-        public required string Address { get; set; }
+        public string? Address { get; set; }
 
         public string? City { get; set; }
 
         public string? Email { get; set; }
+
+        public List<int>? GroupIds { get; set; }
     }
 }
+

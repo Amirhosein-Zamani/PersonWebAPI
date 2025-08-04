@@ -1,4 +1,4 @@
-﻿using PersonWebAPI.Application.DTO;
+﻿using PersonWebAPI.Application.DTO.Person;
 using PersonWebAPI.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -10,13 +10,13 @@ namespace PersonWebAPI.Application.Services.Intrfaces
 {
     public interface IPersonService
     {
-        Task<Result<List<Person>> GetAllPersonAsync();
+        Task<Result<List<PersonReadDto>>> GetAllPersonAsync();
 
-        Task<Result<Person>> GetPersonByIdAsync(int id);
+        Task<Result<PersonReadDto>> GetPersonByIdAsync(int id);
 
-        Task<Result<Person>> AddPersonAsync(CreatePersonDto personDto);
+        Task<Result<Person>> AddPersonAsync(PersonCreateDto personCreateDto);
 
-        Task<Result<Person>> EditPersonAsync(int id, EditPersonDto editpersonDto);
+        Task<Result<Person>> EditPersonAsync(int id, PersonEditDto personEditDto);
 
         Task<Result<Person>> DeletePersonAsync(int id);
 

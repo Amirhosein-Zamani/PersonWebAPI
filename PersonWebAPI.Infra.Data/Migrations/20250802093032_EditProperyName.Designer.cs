@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonWebAPI.Infra.Data.Context;
 
@@ -10,9 +11,11 @@ using PersonWebAPI.Infra.Data.Context;
 namespace PersonWebAPI.Infra.Data.Migrations
 {
     [DbContext(typeof(PersonWebAPIContext))]
-    partial class PersonWebAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250802093032_EditProperyName")]
+    partial class EditProperyName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

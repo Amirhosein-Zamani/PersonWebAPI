@@ -15,7 +15,7 @@ namespace PersonWebAPI.Domain.Interfaces
 
         Task<Person?> GetPersonByName(string name);
 
-        Task<Person?> GetPersonByMobileAsync(string mobile);
+        Task<Person?> GetPersonByMobile(string mobile);
 
         Task AddPersonAsync(Person person);
 
