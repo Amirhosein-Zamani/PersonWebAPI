@@ -9,11 +9,9 @@ namespace PersonWebAPI.Application.DTO
 {
     public class GroupDto
     {
-        [Required]
-        [MaxLength(50)]
+        
         public required string GroupName { get; set; }
 
-        [MaxLength(50)]
         public string? Description { get; set; }
 
        

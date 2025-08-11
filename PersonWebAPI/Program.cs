@@ -1,8 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PersonWebAPI.Application.DependencyInjection;
 using PersonWebAPI.Application.Mapping;
 using PersonWebAPI.Infra.Data.Context;
 using PersonWebAPI.Infra.Data.DependencyInjection;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using PersonWebAPI.Application.Validator;
 
 
 
@@ -16,12 +19,15 @@ string connectionString = builder.Configuration.GetConnectionString("PersonWebAP
 builder.Services.AddDbContext<PersonWebAPIContext>(
     options => options.UseSqlServer(connectionString));
 
+
 // Add services to the container.
-builder.Services.AddApplicationService();
-builder.Services.AddInfraDataService();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplicationService();
+builder.Services.AddInfraDataService();
+
 
 var app = builder.Build();
 
