@@ -8,20 +8,19 @@ namespace PersonWebAPI.Application.Services.Implementation
 {
     public class PersonService(IPersonReposirory personReposirory) : IPersonService
     {
-        public async Task<Result<Person>> AddPersonAsync(PersonCreateDto personCreateDto)
+
+        public async Task<Result<Person>> AddPersonAsync(CreatePersonDto createPersonDto)
         {
-            var existingPerson = await personReposirory.GetPersonByMobile(personCreateDto.Mobile);
+            var existingPerson = await personReposirory.GetPersonByMobile(createPersonDto.Mobile);
 
             if (existingPerson != null)
-            {
                 return Result<Person>.Failure("کاربری با این شماره موبایل قبلا ثبت نام شده");
-            }
 
-            var person = personCreateDto.Adapt<Person>();
+            var person = createPersonDto.Adapt<Person>();
 
             await personReposirory.AddPersonAsync(person);
 
-            var dto = personCreateDto.Adapt<Person>();
+            var dto = createPersonDto.Adapt<Person>();
 
             return Result<Person>.Success(dto);
 
@@ -43,13 +42,13 @@ namespace PersonWebAPI.Application.Services.Implementation
         }
 
 
-        public async Task<Result<Person>> EditPersonAsync(int id, PersonEditDto personEditDto)
+        public async Task<Result<Person>> EditPersonAsync(int id, EditPersonDto editPersonDto)
         {
             var person = await personReposirory.GetPersonByIdAsync(id);
 
             if (person != null)
             {
-                personEditDto.Adapt(person);
+                editPersonDto.Adapt(person);
 
                 await personReposirory.UpdatePersonAsync(person);
 
@@ -61,38 +60,35 @@ namespace PersonWebAPI.Application.Services.Implementation
         }
 
 
-        public async Task<Result<List<PersonReadDto>>> GetAllPersonAsync()
+        public async Task<Result<List<GetPersonDto>>> GetAllPersonAsync()
         {
-
             var People = await personReposirory.GetAllPerson();
 
             if (People != null && People.Any())
             {
-                var dto = People.Adapt<List<PersonReadDto>>();
+                var dto = People.Adapt<List<GetPersonDto>>();
 
-                return Result<List<PersonReadDto>>.Success(dto);
+                return Result<List<GetPersonDto>>.Success(dto);
             }
 
-            return Result<List<PersonReadDto>>.Failure("هیچ کاربری یافت نشد!");
+            return Result<List<GetPersonDto>>.Failure("هیچ کاربری یافت نشد!");
         }
 
 
-
-        public async Task<Result<PersonReadDto>> GetPersonByIdAsync(int id)
+        public async Task<Result<GetPersonDto>> GetPersonByIdAsync(int id)
         {
             var person = await personReposirory.GetPersonByIdAsync(id);
 
             if (person != null)
             {
-                var dto = person.Adapt<PersonReadDto>();
+                var dto = person.Adapt<GetPersonDto>();
 
-                return Result<PersonReadDto>.Success(dto);
+                return Result<GetPersonDto>.Success(dto);
             }
 
-            return Result<PersonReadDto>.Failure("کاربری با این آیدی وجود ندارد!");
+            return Result<GetPersonDto>.Failure("کاربری با این آیدی وجود ندارد!");
 
         }
-
 
 
     }

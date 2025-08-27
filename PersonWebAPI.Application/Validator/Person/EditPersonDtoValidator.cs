@@ -1,22 +1,22 @@
 ﻿using FluentValidation;
 using PersonWebAPI.Application.DTO.Person;
-using PersonWebAPI.Application.Services.Implementation;
 using PersonWebAPI.Application.Services.Intrfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PersonWebAPI.Application.Validator
+
+namespace PersonWebAPI.Application.Validator.Person
 {
-    public class PersonEditDtoValidator : AbstractValidator<PersonEditDto>
+    public class EditPersonDtoValidator : AbstractValidator<EditPersonDto>
     {
         private readonly IGroupService _groupService;
 
-        public PersonEditDtoValidator(IGroupService groupService)
+        public EditPersonDtoValidator(IGroupService groupService)
         {
             _groupService = groupService;
+
+            RuleFor(p => p.Id)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("وارد کردن آیدی الزامی است!");
 
             RuleFor(p => p.Name)
                 .NotEmpty()
@@ -58,20 +58,15 @@ namespace PersonWebAPI.Application.Validator
 
 
 
-            RuleFor(p => p.Id)
+            RuleFor(x => x.GroupIds)
+               .NotNull().WithMessage("حداقل یک گروه باید انتخاب شود.")
+
                 .MustAsync(async (groupId, CancellationToken) =>
                 {
                     return await groupService.ExistGroupByIdAsync(groupId, CancellationToken);
 
                 })
                 .WithMessage("گروه انتخاب‌شده وجود ندارد");
-
-
-
-            RuleFor(x => x.GroupIds)
-               .NotNull().WithMessage("حداقل یک گروه باید انتخاب شود.");
-
-
 
         }
     }

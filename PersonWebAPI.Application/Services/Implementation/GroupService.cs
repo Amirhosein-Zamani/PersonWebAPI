@@ -11,7 +11,7 @@ namespace PersonWebAPI.Application.Services.Implementation
 {
     public class GroupService(IGroupRepository groupRepository) : IGroupService
     {
-        public async Task<bool> ExistGroupByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<bool> ExistGroupByIdAsync(List<int> id, CancellationToken cancellationToken)
         {
             var result = await groupRepository.ExistGroupByIdAsync(id, cancellationToken);
 

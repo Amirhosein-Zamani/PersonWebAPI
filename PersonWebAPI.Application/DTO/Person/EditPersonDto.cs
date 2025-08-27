@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PersonWebAPI.Application.DTO.Person
 {
-    public class PersonEditDto
+    public class EditPersonDto
     {
         public int Id { get; set; }
 

@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PersonWebAPI.Infra.Data.Configurations.Persons
 {
@@ -14,6 +10,7 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
         {
 
             #region properties
+
 
             builder.HasKey(p => new { p.PersonId, p.GroupId });
 
@@ -30,6 +27,7 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
             builder.HasOne(pg => pg.Group)
                  .WithMany(p => p.PersonGroups)
                  .HasForeignKey(pg => pg.GroupId);
+
 
             #endregion relations
         }

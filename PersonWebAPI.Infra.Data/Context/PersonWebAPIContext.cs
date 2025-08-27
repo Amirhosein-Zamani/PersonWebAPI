@@ -22,6 +22,8 @@ namespace PersonWebAPI.Infra.Data.Context
 
         public DbSet<PersonGroup> PersonGroups { get; set; }
 
+        public DbSet<Voucher> Vouchers { get; set; }
+
         #endregion Db_Set
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

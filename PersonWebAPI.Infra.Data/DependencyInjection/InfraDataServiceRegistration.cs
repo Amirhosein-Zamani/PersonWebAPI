@@ -17,6 +17,8 @@ namespace PersonWebAPI.Infra.Data.DependencyInjection
 
             services.AddScoped<IGroupRepository, GroupRepository>();
 
+            services.AddScoped<IVoucherRepository, VoucherRepository>();
+
             return services;
         }
     }

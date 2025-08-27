@@ -1,11 +1,8 @@
-﻿using Mapster;
-using PersonWebAPI.Application.DTO;
+﻿using Eshop.Application.Convertor;
+using Mapster;
+using PersonWebAPI.Application.DTO.Group;
 using PersonWebAPI.Application.DTO.Person;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PersonWebAPI.Application.DTO.Voucher;
 
 namespace PersonWebAPI.Application.Mapping
 {
@@ -14,9 +11,9 @@ namespace PersonWebAPI.Application.Mapping
         public static void Configure()
         {
 
-            #region Person ---> PersonReadDTO
+            #region Person ---> GetdPersonDto
 
-            TypeAdapterConfig<Person, PersonReadDto>
+            TypeAdapterConfig<Person, GetPersonDto>
                .NewConfig()
                .Map(des => des.Name, src => src.Name)
                .Map(des => des.Age, src => src.Age)
@@ -28,13 +25,14 @@ namespace PersonWebAPI.Application.Mapping
                : new List<GroupDto>());
 
 
-            #endregion Person ---> PersonReadDTO
+            #endregion Person ---> GetdPersonDto
 
 
-            #region PersonEditDTO ---> Person
+            #region editPersonDto ---> Person
 
-            TypeAdapterConfig<PersonEditDto, Person>
+            TypeAdapterConfig<EditPersonDto, Person>
                 .NewConfig()
+                .Map(des => des.PersonID, src => src.Id)
                 .Map(des => des.Name, src => src.Name)
                .Map(des => des.Age, src => src.Age)
                .Map(des => des.City, src => src.City)
@@ -44,19 +42,53 @@ namespace PersonWebAPI.Application.Mapping
                .Map(des => des.PersonGroups, src => src.GroupIds != null ? src.GroupIds.Select(id => new PersonGroup { GroupId = id }).ToList()
                : new List<PersonGroup>());
 
-            #endregion PersonEditDTO ---> Person
+            #endregion editPersonDto ---> Person
 
 
-            #region PersonCreateDTO ---> Person
+            #region CreatepersonDto ---> Person
 
-            TypeAdapterConfig<PersonCreateDto, Person>
+            TypeAdapterConfig<CreatePersonDto, Person>
             .NewConfig()
             .Map(des => des.Name, src => src.Name)
             .Map(des => des.Mobile, src => src.Mobile)
             .Map(des => des.PersonGroups, src => src.GroupIds != null ? src.GroupIds.Select(id => new PersonGroup { GroupId = id }).ToList()
                : new List<PersonGroup>());
 
-            #endregion PersonCreateDTO ---> Person
+            #endregion CreatepersonDto ---> Person
+
+
+            #region CreateVoucherDto ---> Voucher
+
+
+            TypeAdapterConfig<CreateVoucherDto, Voucher>
+                .NewConfig()
+                .Map(dest => dest.PersonId, src => src.PersonId)
+                .Map(dest => dest.VoucherName, src => src.VoucherName)
+                .Map(dest => dest.VoucherType, src => src.VoucherType)
+                .Map(dest => dest.CreditAmount, src => src.CreditAmount)
+                .Map(dest => dest.DebitAmount, src => src.DebitAmount)
+                .Map(dest => dest.IssuanceDate, src => src.IssuanceDate.ToShamsi())
+                .Map(dest => dest.Description, src => src.Description);
+
+
+            #endregion CreateVoucherDto ---> Voucher
+
+
+            #region EditVoucherDto ---> Voucher
+
+
+            TypeAdapterConfig<CreateVoucherDto, Voucher>
+                .NewConfig()
+                .Map(dest => dest.PersonId, src => src.PersonId)
+                .Map(dest => dest.VoucherName, src => src.VoucherName)
+                .Map(dest => dest.VoucherType, src => src.VoucherType)
+                .Map(dest => dest.CreditAmount, src => src.CreditAmount)
+                .Map(dest => dest.DebitAmount, src => src.DebitAmount)
+                .Map(dest => dest.IssuanceDate, src => src.IssuanceDate.ToShamsi())
+                .Map(dest => dest.Description, src => src.Description);
+
+
+            #endregion EditVoucherDto ---> Voucher
 
 
         }

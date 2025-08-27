@@ -7,20 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonWebAPI.Application.Validator
+namespace PersonWebAPI.Application.Validator.Person
 {
-    public class PersonCreateDtoValidator : AbstractValidator<PersonCreateDto>
+    public class CreatePersonDtoValidator : AbstractValidator<CreatePersonDto>
     {
-        public PersonCreateDtoValidator()
+        public CreatePersonDtoValidator()
         {
 
             RuleFor(p => p.Name)
                .NotEmpty()
-               .WithMessage("نام الزامی است.")
-
                .NotNull()
                .WithMessage("نام الزامی است.")
-
                .MaximumLength(100)
                .WithMessage("نام نباید بیشتر از 100 کاراکتر باشد.");
 
@@ -28,19 +25,18 @@ namespace PersonWebAPI.Application.Validator
             RuleFor(p => p.Mobile)
                    .NotEmpty()
                    .WithMessage("شماره موبایل الزامی است.")
-
                    .Length(11)
                    .WithMessage("شماره موبایل باید دقیقاً 11 رقم باشد.")
-
-
-                   .Matches(@"^09/d{9}$") 
+                   .Matches(@"^09/d{9}$")
                    .WithMessage("شماره موبایل باید با 09 شروع شده و 11 رقم باشد.");
 
 
             RuleFor(p => p.GroupIds)
                 .NotNull()
                 .WithMessage("انتخاب حداقل یک گروه الزامی است.");
-               
+
+
+
         }
     }
 }

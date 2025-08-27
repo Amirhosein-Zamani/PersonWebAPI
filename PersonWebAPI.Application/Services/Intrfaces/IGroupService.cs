@@ -8,6 +8,6 @@ namespace PersonWebAPI.Application.Services.Intrfaces
 {
     public interface IGroupService
     {
-        Task<bool> ExistGroupByIdAsync(int id, CancellationToken cancellationToken);
+        Task<bool> ExistGroupByIdAsync(List<int> id , CancellationToken cancellationToken);
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonWebAPI.Application.DTO
+namespace PersonWebAPI.Application.DTO.Group
 {
     public class GroupDto
     {

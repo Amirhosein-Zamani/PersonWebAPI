@@ -11,9 +11,9 @@ namespace PersonWebAPI.Infra.Data.Repository
 {
     public class GroupRepository(PersonWebAPIContext context) : IGroupRepository
     {
-        public async Task<bool> ExistGroupByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<bool> ExistGroupByIdAsync(List<int> id, CancellationToken cancellationToken)
         {
-            var result = await context.Groups.AnyAsync(g => g.GroupId == id, cancellationToken);
+            var result = await context.Groups.AnyAsync(g => id.Contains(g.GroupId) , cancellationToken);
 
             return result;
         }

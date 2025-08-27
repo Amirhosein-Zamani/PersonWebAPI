@@ -25,6 +25,8 @@ public class Person
 
     public ICollection<PersonGroup>? PersonGroups { get; set; }
 
+    public ICollection<Voucher>? Vouchers{ get; set; }
+
     #endregion relations 
 
 

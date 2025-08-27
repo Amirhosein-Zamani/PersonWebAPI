@@ -10,13 +10,13 @@ namespace PersonWebAPI.Application.Services.Intrfaces
 {
     public interface IPersonService
     {
-        Task<Result<List<PersonReadDto>>> GetAllPersonAsync();
+        Task<Result<List<GetPersonDto>>> GetAllPersonAsync();
 
-        Task<Result<PersonReadDto>> GetPersonByIdAsync(int id);
+        Task<Result<GetPersonDto>> GetPersonByIdAsync(int id);
 
-        Task<Result<Person>> AddPersonAsync(PersonCreateDto personCreateDto);
+        Task<Result<Person>> AddPersonAsync(CreatePersonDto createPersonDto);
 
-        Task<Result<Person>> EditPersonAsync(int id, PersonEditDto personEditDto);
+        Task<Result<Person>> EditPersonAsync(int id, EditPersonDto editPersonDto);
 
         Task<Result<Person>> DeletePersonAsync(int id);
 

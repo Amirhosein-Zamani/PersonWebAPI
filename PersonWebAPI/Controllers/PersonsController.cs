@@ -18,10 +18,10 @@ namespace PersonWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonController(IPersonService personService, IGroupService groupService) : ControllerBase
+    public class PersonsController(IPersonService personService) : ControllerBase
     {
 
-        #region Read
+        #region Get
 
         [HttpGet]
         public async Task<IActionResult> GetPeopleAsync()
@@ -49,13 +49,13 @@ namespace PersonWebAPI.Controllers
             return Ok(result);
         }
 
-        #endregion Read
+        #endregion Get
 
 
         #region Create
 
         [HttpPost]
-        public async Task<IActionResult> AddPersonAsync([FromBody] PersonCreateDto personCreateDto)
+        public async Task<IActionResult> AddPersonAsync([FromBody] CreatePersonDto createPersonDto)
         {
 
             if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace PersonWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await personService.AddPersonAsync(personCreateDto);
+            var result = await personService.AddPersonAsync(createPersonDto);
 
             if (!result.IsSucces)
             {
@@ -81,7 +81,7 @@ namespace PersonWebAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditPerson(int id, [FromBody] PersonEditDto dto, [FromServices] IValidator<PersonEditDto> validator)
+        public async Task<IActionResult> EditPerson(int id, [FromBody] EditPersonDto dto, [FromServices] IValidator<EditPersonDto> validator)
         {
             var result = await validator.ValidateAsync(dto);
 

@@ -41,6 +41,11 @@ namespace PersonWebAPI.Infra.Data.Configurations.Persons
             builder.HasMany(p => p.PersonGroups)
               .WithOne(pg => pg.Person);
 
+            builder.HasMany(p => p.Vouchers)
+                .WithOne(v => v.Person)
+                .HasForeignKey("PersonId")
+                .OnDelete(DeleteBehavior.Restrict);
+
             #endregion relations
 
         }
